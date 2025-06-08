@@ -1,0 +1,16 @@
+C:\Users\ilica\source\repos\Foorm\Foorm\bin\Debug\net8.0-windows\Foorm.exe
+C:\Users\ilica\source\repos\Foorm\Foorm\bin\Debug\net8.0-windows\Foorm.deps.json
+C:\Users\ilica\source\repos\Foorm\Foorm\bin\Debug\net8.0-windows\Foorm.runtimeconfig.json
+C:\Users\ilica\source\repos\Foorm\Foorm\bin\Debug\net8.0-windows\Foorm.dll
+C:\Users\ilica\source\repos\Foorm\Foorm\bin\Debug\net8.0-windows\Foorm.pdb
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.Form1.resources
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.csproj.GenerateResource.cache
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.AssemblyInfoInputs.cache
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.AssemblyInfo.cs
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.csproj.CoreCompileInputs.cache
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.dll
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\refint\Foorm.dll
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.pdb
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.genruntimeconfig.cache
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\ref\Foorm.dll
