@@ -43,6 +43,9 @@ namespace Foorm
             Walls[15] = new Wall(0, 960, 0, 640, Color.Blue);
 
             enemies.Add(new Zombie(100, 100, 40));
+            enemies.Add(new Zombie(150, 100, 40));
+            enemies.Add(new Zombie(100, 150, 40));
+            enemies.Add(new Zombie(150, 150, 40));
             timer1.Start();
 
         }
@@ -60,23 +63,22 @@ namespace Foorm
         public List<EnemyBase> enemies = new List<EnemyBase>();
         const float playerRadius = 12.0f;
         Shotgun shotgun = new Shotgun();
+        bool GameOver => Slayer.Health <= 0;
         public void Draw3D()
         {
 
 
 
-            int[] wx, wy, wz;
+       
             int w, s;
-            wx = new int[4];
-            wy = new int[4];
-            wz = new int[4];
+   
             double CS = Matematika.Cos(Slayer.A);
             double SN = Matematika.Sin(Slayer.A);
             BufferedGraphicsContext context = BufferedGraphicsManager.Current;
             BufferedGraphics buffer = context.Allocate(this.CreateGraphics(), this.ClientRectangle);
             Graphics g = buffer.Graphics;
             g.Clear(Color.White);
-            g.DrawImage(shotgun.Image, 500, 500);
+
             for (s = 0; s < NumSect; s++)
             {
                 for (w = 0; w < NumSect - s - 1; w++)
@@ -107,90 +109,20 @@ namespace Foorm
                 for (w = Sectors[s].ws; w < Sectors[s].we; w++)
                 {
 
-                    int x1 = Walls[w].x1 - Slayer.X, y1 = Walls[w].y1 - Slayer.Y;
-                    int x2 = Walls[w].x2 - Slayer.X, y2 = Walls[w].y2 - Slayer.Y;
-                    //x sveta sirina
-                    wx[0] = Convert.ToInt32(x1 * CS - y1 * SN);
-                    wx[1] = Convert.ToInt32(x2 * CS - y2 * SN);
-                    wx[2] = wx[0];
-                    wx[3] = wx[1];
-                    //y sveta dubina
-                    wy[0] = Convert.ToInt32(y1 * CS + x1 * SN);
-                    wy[1] = Convert.ToInt32(y2 * CS + x2 * SN);
-                    wy[2] = wy[0];
-                    wy[3] = wy[1];
-                    Sectors[s].d += Matematika.distance(0, 0, (wx[0] + wx[1]) / 2, (wy[0] + wy[1]) / 2); //belezimo udaljenost od zida
-
-                    wz[0] = Convert.ToInt32(Sectors[s].z1 - Slayer.Z + ((Slayer.L * wy[0]) / 32.0));//z sveta visina
-                    wz[1] = Convert.ToInt32(Sectors[s].z1 - Slayer.Z + ((Slayer.L * wy[1]) / 32.0));
-                    wz[2] = wz[0] + Sectors[s].z2;
-                    wz[3] = wz[1] + Sectors[s].z2;
-                    //ekran x, ekran y pozicije
-
-                    //ne crtaj ako iza igraca
-                    if (wy[0] < 1 && wy[1] < 1) continue;
-                    if (wy[0] < 1)
-                    {
-                        ClipBehindPlayer(ref wx[0], ref wy[0], ref wz[0], ref wx[1], ref wy[1], ref wz[1]);//donja linija
-                        ClipBehindPlayer(ref wx[2], ref wy[2], ref wz[2], ref wx[3], ref wy[3], ref wz[3]);//gornja linija
-                        wy[0] = 1;
-                    }
-                    if (wy[1] < 1)
-                    {
-                        ClipBehindPlayer(ref wx[1], ref wy[1], ref wz[1], ref wx[0], ref wy[0], ref wz[0]);
-                        ClipBehindPlayer(ref wx[3], ref wy[3], ref wz[3], ref wx[2], ref wy[2], ref wz[2]);
-                        wy[1] = 1;
-                    }
-
-
-
-                    wx[0] = wx[0] * 200 / wy[0] + SW2;
-                    wy[0] = wz[0] * 200 / wy[0] + SH2;
-                    wx[1] = wx[1] * 200 / wy[1] + SW2; wy[1] = wz[1] * 200 / wy[1] + SH2;
-                    wx[2] = wx[2] * 200 / wy[2] + SW2; wy[2] = wz[2] * 200 / wy[2] + SH2;
-                    wx[3] = wx[3] * 200 / wy[3] + SW2; wy[3] = wz[3] * 200 / wy[3] + SH2;
-
-
-                    Pen pen = new Pen(Color.Black);
-                    Brush brush = new SolidBrush(Walls[w].c);
-
-                    Point[] points = new Point[4];
-                    points[0] = new Point(wx[0], wy[0]);
-                    points[1] = new Point(wx[2], wy[2]);
-                    points[2] = new Point(wx[3], wy[3]);
-                    points[3] = new Point(wx[1], wy[1]);
-
-
-                    g.FillPolygon(brush, points);
-
-
-
+                    Sectors[s].d += Walls[w].d(Slayer.X,Slayer.Y);
+                    Walls[w].Draw(g, Slayer, Sectors[s]);
                 }
                 Sectors[s].d /= (Sectors[s].we - Sectors[s].ws);
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(g, Slayer);
                 }
-
-
-
-
             }
-
+            g.DrawImage(shotgun.Image, SW2, SH);
             buffer.Render();
             buffer.Dispose();
         }
-        void ClipBehindPlayer(ref int x1, ref int y1, ref int z1, ref int x2, ref int y2, ref int z2)
-        {
-            float da = y1;
-            float db = y2;
-            float d = da - db;
-            if (d == 0) { d = 1; }
-            float s = da / d;
-            x1 = Convert.ToInt32(x1 + s * (x2 - (x1)));
-            y1 = Convert.ToInt32(y1 + s * (y2 - (y1))); if (y1 == 0) { y1 = 1; }
-            z1 = Convert.ToInt32(z1 + s * (z2 - (z1)));
-        }
+    
         bool CheckCollision(float newX, float newY, int sector)
         {
             if (sector == -1) return false;
@@ -243,18 +175,26 @@ namespace Foorm
             double dx =  enemy.X-Slayer.X;
             double dy =  enemy.Y-Slayer.Y;
             double angle = Math.Atan2(dx, dy);
-            double playerAngle = Math.Atan(Convert.ToDouble(Slayer.A)/180*Math.PI);
-          
-          
-            
-                Console.WriteLine(angle + " " + Slayer.A);
-         if(angle>playerAngle-Math.PI/16&&angle<playerAngle+Math.PI/16){ enemy.TakeDamage(Weapon.Damage); } 
+            double playerAngle = Slayer.A * Math.PI / 180.0;
+            label1.Text = "Ammo: "+Convert.ToString(Weapon.Ammo);
+            double angleDiff=NormalizeAngle(angle-playerAngle);
+            double tolerance = Math.PI / 8;
+
+            Console.WriteLine(angle + " " + Slayer.A);
+            if (Math.Abs(angleDiff)<=tolerance){ enemy.TakeDamage(Weapon.Damage); } 
+        }
+        double NormalizeAngle(double angle)
+        {
+            while (angle < -Math.PI) angle += 2 * Math.PI;
+            while (angle > Math.PI) angle -= 2 * Math.PI;
+            return angle;
         }
 
         void MovePlayer()
         {
             int newX = Slayer.X;
             int newY = Slayer.Y;
+            int playerSector = GetPlayerSector(Slayer.X, Slayer.Y);
             if (k.a && !k.m) { Slayer.A -= 4; if (Slayer.A < 0) Slayer.A += 360; }
             if (k.d && !k.m) { Slayer.A += 4; if (Slayer.A > 359) Slayer.A -= 360; }
             int dx = Convert.ToInt32(Matematika.Sin(Slayer.A) * 10);
@@ -267,6 +207,7 @@ namespace Foorm
             if (k.d && k.m) { Slayer.L += 1; }
             if (k.w && k.m) { Slayer.Z -= 4; }
             if (k.s && k.m) { Slayer.Z += 4; }
+            if (playerSector != -1) Slayer.Z = Sectors[playerSector].z1;
             if (CheckCollision(Slayer.X, Slayer.Y, GetPlayerSector(Slayer.X, Slayer.Y)))
             {
                 Slayer.X = newX; Slayer.Y = newY;
@@ -282,9 +223,17 @@ namespace Foorm
 
             MovePlayer();
             shotgun.Update(20);
-            
+            foreach(EnemyBase enemy in enemies)
+            {
+                if (enemy.IsDead) { continue; }
+                enemy.EnemyMove(Slayer);
+                enemy.Update(Slayer.X, Slayer.Y,20);
+                Slayer.TakeDamage(enemy);
+            }
+            label2.Text = "Health: " + Slayer.Health;
+            Slayer.Update(20);
             Draw3D();
-
+            if(GameOver)timer1.Stop();
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -305,12 +254,13 @@ namespace Foorm
             {
                 shotgun.Shoot(); 
                 {
-                    foreach (var enemy in enemies) 
+                    foreach (EnemyBase enemy in enemies) 
                     {
-                        PlayerAttack(Slayer, shotgun, enemies[0]);
+                        PlayerAttack(Slayer, shotgun, enemy);
                     }
                 }
             }
+            if (e.KeyCode == Keys.Escape) { if (timer1.Enabled) timer1.Stop(); else timer1.Start(); }
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -342,4 +292,4 @@ namespace Foorm
         {
             public bool w, a, s, d, sl, sr, m;
         }
-    }
+}

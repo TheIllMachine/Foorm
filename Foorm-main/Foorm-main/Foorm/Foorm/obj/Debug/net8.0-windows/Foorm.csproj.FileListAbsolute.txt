@@ -31,3 +31,4 @@ C:\Users\TBG\Downloads\Foorm-main\Foorm-main\Foorm\Foorm\obj\Debug\net8.0-window
 C:\Users\TBG\Downloads\Foorm-main\Foorm-main\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.genruntimeconfig.cache
 C:\Users\TBG\Downloads\Foorm-main\Foorm-main\Foorm\Foorm\obj\Debug\net8.0-windows\ref\Foorm.dll
 C:\Users\TBG\Downloads\Foorm-main\Foorm-main\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.Properties.Resources.resources
+C:\Users\ilica\source\repos\Foorm\Foorm\obj\Debug\net8.0-windows\Foorm.Properties.Resources.resources

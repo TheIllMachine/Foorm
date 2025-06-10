@@ -3,7 +3,7 @@
 public class Zombie : EnemyBase
 {
 
-    public Zombie(int x, int y, int z) : base(10, 100, 40, Color.DarkGreen)
+    public Zombie(int x, int y, int z) : base(2, 100, 40, Color.DarkGreen,10)
     {
 
         base.X = x; base.Y = y; base.Z = z;
