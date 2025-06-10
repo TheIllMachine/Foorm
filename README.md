@@ -83,3 +83,32 @@ VALUES
 (8, 'Marija', 'Nikolić', 3012990, 2),
 (9, 'Aleksa', 'Kovačević', 1805009, 3),
 (10, 'Teodora', 'Simić', 1102001, 1);
+(11, 'Vuk', 'Bogdanović', 1208991, 4),
+(12, 'Lana', 'Milić', 2703002, 5),
+(13, 'Petar', 'Zorić', 0501993, 4),
+(14, 'Nina', 'Đukić', 1307003, 5),
+(15, 'Mihailo', 'Savić', 2212994, 4),
+(16, 'Tamara', 'Vujić', 1010995, 5),
+(17, 'Filip', 'Radovanović', 1904996, 4),
+(18, 'Jovana', 'Milinković', 0808004, 5),
+(19, 'Aleksa', 'Đorđević', 0910997, 4),
+(20, 'Katarina', 'Rakić', 1503005, 5);
+INSERT INTO TIP_OSIGURANJA(id_tipa, naziv)
+VALUES
+(1, 'Auto osiguranje'),
+(2, 'Zdravstveno osiguranje'),
+(3, 'Životno osiguranje'),
+(4, 'Osiguranje imovine'),
+(5, 'Putno osiguranje');
+INSERT INTO LIKVIDATOR(id_likvidatora, ime, prezime, JMBG, sektor_id)
+VALUES
+(1, 'Milan', 'Jankovic', 1201987, 1),
+(2, 'Tijana', 'Stankovic', 2507991, 3),
+(3, 'Nemanja', 'Miloševic', 3012000, 2),
+(4, 'Katarina', 'Pantic', 1504992, 5),
+(5, 'Filip', 'Rakic', 1808003, 4),
+(6, 'Jovana', 'Bogdanovic', 1106995, 2),
+(7, 'Vladimir', 'Živkovic', 2303001, 1),
+(8, 'Natalija', 'Radovanovic', 1701004, 5),
+(9, 'Stefan', 'Vasic', 2609990, 3),
+(10, 'Milena', 'Obradovic', 1402002, 4);
